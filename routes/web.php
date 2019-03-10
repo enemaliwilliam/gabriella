@@ -15,8 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+Route::group(['middleware' => ['auth','verified']], function() {
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('client', 'ClientController');
-Route::resource('message', 'MessageController');
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('client', 'ClientController');
+    Route::resource('message', 'MessageController');
+
+});
+
+
